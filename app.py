@@ -41,9 +41,17 @@ def chat_interface(message, history):
 
     return reply
 
-# Gradio UI
-gr.ChatInterface(fn=chat_interface,
-                 title="DeepShiva Chatbot",
-                 description="Ask anything to the DeepShiva model.",
-                 chatbot=gr.Chatbot(height=500),
-                 theme="soft").launch()
+# Gradio UI with full-height chatbot
+with gr.Blocks(theme="soft", css="""
+  .chatbot-fullscreen {
+    height: 60vh !important;
+  }
+""") as demo:
+    gr.ChatInterface(
+        fn=chat_interface,
+        chatbot=gr.Chatbot(elem_classes="chatbot-fullscreen"),
+        title="DeepShiva Chatbot",
+        description="Ask anything to the DeepShiva model.",
+    )
+
+demo.launch()
